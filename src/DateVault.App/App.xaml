@@ -41,8 +41,8 @@
     <Style x:Key="WindowSurfaceBorderStyle" TargetType="Border">
       <Setter Property="Margin" Value="10" />
       <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}" />
-      <Setter Property="BorderBrush" Value="{StaticResource FrameBorderBrush}" />
-      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
       <Setter Property="CornerRadius" Value="20" />
     </Style>
 
