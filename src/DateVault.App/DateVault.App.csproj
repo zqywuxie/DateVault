@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>DateVault.App</AssemblyName>
+    <ApplicationIcon>..\..\assets\datevault.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <InformationalVersion>1.0.0</InformationalVersion>
+    <Company>DateVault</Company>
+    <Product>DateVault</Product>
+    <Description>Lightweight Windows desktop file archiver with date-based and type-based organization.</Description>
+    <Copyright>Copyright (c) DateVault</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DateVault.Application\DateVault.Application.csproj" />
+    <ProjectReference Include="..\DateVault.Domain\DateVault.Domain.csproj" />
+    <ProjectReference Include="..\DateVault.Infrastructure\DateVault.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>
