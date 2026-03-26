@@ -1,10 +1,10 @@
-using DateVault.App.ViewModels;
 using DateVault.App.Services;
+using DateVault.App.ViewModels;
 using Forms = System.Windows.Forms;
 using Wpf = System.Windows;
+using WpfAnimation = System.Windows.Media.Animation;
 using WpfControls = System.Windows.Controls;
 using WpfInput = System.Windows.Input;
-using WpfAnimation = System.Windows.Media.Animation;
 using WpfMedia = System.Windows.Media;
 using WpfThreading = System.Windows.Threading;
 
@@ -47,6 +47,7 @@ public partial class MainWindow : Wpf.Window
                     EasingMode = WpfAnimation.EasingMode.EaseOut
                 }
             };
+
             BeginAnimation(OpacityProperty, fadeIn);
         }
         catch (Exception exception)
@@ -61,11 +62,6 @@ public partial class MainWindow : Wpf.Window
 
             messageDialog.ShowDialog();
         }
-    }
-
-    private void Window_StateChanged(object sender, EventArgs e)
-    {
-        UpdateWindowFrame();
     }
 
     private void Window_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -84,6 +80,11 @@ public partial class MainWindow : Wpf.Window
         {
             // Ignore persistence errors during shutdown.
         }
+    }
+
+    private void WindowCloseButton_Click(object sender, Wpf.RoutedEventArgs e)
+    {
+        Close();
     }
 
     private void SelectRootButton_Click(object sender, Wpf.RoutedEventArgs e)
@@ -145,23 +146,6 @@ public partial class MainWindow : Wpf.Window
         };
 
         dialog.ShowDialog();
-    }
-
-    private void WindowCloseButton_Click(object sender, Wpf.RoutedEventArgs e)
-    {
-        Close();
-    }
-
-    private void WindowMinimizeButton_Click(object sender, Wpf.RoutedEventArgs e)
-    {
-        WindowState = Wpf.WindowState.Minimized;
-    }
-
-    private void WindowMaximizeButton_Click(object sender, Wpf.RoutedEventArgs e)
-    {
-        WindowState = WindowState == Wpf.WindowState.Maximized
-            ? Wpf.WindowState.Normal
-            : Wpf.WindowState.Maximized;
     }
 
     private void ArchiveTreeView_SelectedItemChanged(object sender, Wpf.RoutedPropertyChangedEventArgs<object> e)
@@ -338,26 +322,7 @@ public partial class MainWindow : Wpf.Window
         Left = workArea.Left + ((workArea.Width - Width) / 2);
         Top = workArea.Top + ((workArea.Height - Height) / 2);
         WindowState = Wpf.WindowState.Normal;
-        UpdateWindowFrame();
         _windowStateApplied = true;
-    }
-
-    private void UpdateWindowFrame()
-    {
-        if (WindowFrameBorder is null)
-        {
-            return;
-        }
-
-        if (WindowState == Wpf.WindowState.Maximized)
-        {
-            WindowFrameBorder.Margin = new Wpf.Thickness(0);
-            WindowFrameBorder.CornerRadius = new Wpf.CornerRadius(0);
-            return;
-        }
-
-        WindowFrameBorder.Margin = new Wpf.Thickness(10);
-        WindowFrameBorder.CornerRadius = new Wpf.CornerRadius(20);
     }
 
     private static bool IsReasonableWindowBounds(Wpf.Rect workArea, double left, double top, double width, double height)

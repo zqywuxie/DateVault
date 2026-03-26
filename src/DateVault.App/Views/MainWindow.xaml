@@ -11,9 +11,10 @@
         MinWidth="680"
         MinHeight="500"
         WindowStartupLocation="Manual"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize"
         Opacity="0"
         Closing="Window_Closing"
-        StateChanged="Window_StateChanged"
         SourceInitialized="Window_SourceInitialized"
         Loaded="Window_Loaded">
   <Window.Resources>
@@ -21,8 +22,8 @@
       <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded" />
       <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown" />
       <EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick" />
-      <Setter Property="Margin" Value="0,0,0,4" />
-      <Setter Property="Padding" Value="2" />
+      <Setter Property="Margin" Value="0,0,0,3" />
+      <Setter Property="Padding" Value="1" />
       <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
       <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
     </Style>
@@ -30,41 +31,37 @@
     <HierarchicalDataTemplate DataType="{x:Type vm:FileTreeNodeViewModel}"
                               ItemsSource="{Binding Children}">
       <Border x:Name="RowChrome"
-              Padding="10,7"
+              Padding="8,6"
               Background="Transparent"
-              CornerRadius="16">
+              CornerRadius="14">
         <Grid>
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="52" />
+            <ColumnDefinition Width="18" />
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
 
-          <Border Width="42"
-                  Height="20"
-                  CornerRadius="10">
+          <Border Width="6"
+                  Height="6"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  CornerRadius="3">
             <Border.Style>
               <Style TargetType="Border">
-                <Setter Property="Background" Value="#F1F3F6" />
+                <Setter Property="Background" Value="{Binding MarkerColor}" />
                 <Style.Triggers>
-                  <DataTrigger Binding="{Binding IsDirectory}" Value="True">
-                    <Setter Property="Background" Value="#EAF3FF" />
-                  </DataTrigger>
                   <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TreeViewItem}, Path=IsSelected}" Value="True">
-                    <Setter Property="Background" Value="#FFFFFF" />
+                    <Setter Property="Background" Value="#7C8594" />
                   </DataTrigger>
                 </Style.Triggers>
               </Style>
             </Border.Style>
-            <TextBlock HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="10"
-                       FontWeight="SemiBold"
-                       Foreground="#5C6270"
-                       Text="{Binding TypeLabel}" />
           </Border>
 
           <TextBlock Grid.Column="1"
                      VerticalAlignment="Center"
+                     FontFamily="Microsoft YaHei"
+                     FontSize="12.5"
+                     FontWeight="Normal"
                      Foreground="{StaticResource PrimaryTextBrush}"
                      Text="{Binding Name}" />
         </Grid>
@@ -78,51 +75,45 @@
         </DataTrigger>
       </HierarchicalDataTemplate.Triggers>
     </HierarchicalDataTemplate>
+
+    <Style x:Key="ColumnSplitterStyle" TargetType="GridSplitter">
+      <Setter Property="Width" Value="12" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="VerticalAlignment" Value="Stretch" />
+      <Setter Property="ShowsPreview" Value="True" />
+      <Setter Property="ResizeDirection" Value="Columns" />
+      <Setter Property="ResizeBehavior" Value="PreviousAndNext" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="GridSplitter">
+            <Grid Background="Transparent">
+              <Border x:Name="SplitterChrome"
+                      Width="4"
+                      Margin="4,12"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"
+                      Background="#E3E7EE"
+                      CornerRadius="2" />
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="SplitterChrome" Property="Background" Value="#C9D3E1" />
+              </Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter TargetName="SplitterChrome" Property="Background" Value="#B8C7DC" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
   </Window.Resources>
 
-  <Border x:Name="WindowFrameBorder"
-          Style="{StaticResource WindowSurfaceBorderStyle}">
-    <Grid>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="44" />
-        <RowDefinition Height="*" />
-      </Grid.RowDefinitions>
-
-      <Grid Margin="16,8,16,0">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Orientation="Horizontal"
-                    VerticalAlignment="Center">
-          <Button Style="{StaticResource WindowCloseButtonStyle}"
-                  ToolTip="关闭"
-                  Click="WindowCloseButton_Click" />
-          <Button Style="{StaticResource WindowMinimizeButtonStyle}"
-                  ToolTip="最小化"
-                  Click="WindowMinimizeButton_Click" />
-          <Button Style="{StaticResource WindowMaximizeButtonStyle}"
-                  Margin="0"
-                  ToolTip="最大化"
-                  Click="WindowMaximizeButton_Click" />
-        </StackPanel>
-
-        <TextBlock Grid.Column="1"
-                   HorizontalAlignment="Center"
-                   Style="{StaticResource WindowCaptionTextStyle}"
-                   Text="DateVault" />
-
-        <TextBlock Grid.Column="2"
-                   Style="{StaticResource WindowCaptionTextStyle}"
-                   Text="{Binding AppVersion, StringFormat=v{0}}" />
-      </Grid>
-
-      <DockPanel Grid.Row="1">
+  <DockPanel Margin="12,8,12,12">
     <Border DockPanel.Dock="Top"
-            Margin="24,10,24,14"
-            Padding="22,20"
+            Margin="0,0,0,10"
+            Padding="18,16"
             Style="{StaticResource CardBorderStyle}">
       <Grid>
         <Grid.RowDefinitions>
@@ -136,31 +127,36 @@
 
         <StackPanel Orientation="Horizontal"
                     VerticalAlignment="Center">
-          <TextBlock FontSize="24"
-                     FontWeight="SemiBold"
-                     Foreground="{StaticResource PrimaryTextBrush}"
-                     Text="DateVault" />
+          <StackPanel>
+            <TextBlock FontSize="22"
+                       FontWeight="SemiBold"
+                       Foreground="{StaticResource PrimaryTextBrush}"
+                       Text="DateVault" />
+            <TextBlock Margin="0,4,0,0"
+                       Foreground="{StaticResource SecondaryTextBrush}"
+                       Text="按日期整理文件与文件夹" />
+          </StackPanel>
+
           <Border Margin="12,0,0,0"
-                  Padding="12,6"
+                  Padding="10,5"
                   Background="{StaticResource AccentSoftBrush}"
-                  CornerRadius="12">
+                  CornerRadius="10"
+                  VerticalAlignment="Center">
             <TextBlock Foreground="{StaticResource AccentBrush}"
                        Text="{Binding TodayRelativePath, StringFormat=今日目录: {0}}" />
           </Border>
         </StackPanel>
 
-        <TextBlock Grid.Row="0"
-                   Grid.Column="1"
+        <TextBlock Grid.Column="1"
                    MaxWidth="420"
                    VerticalAlignment="Center"
                    TextTrimming="CharacterEllipsis"
                    Foreground="{StaticResource SecondaryTextBrush}"
                    Text="{Binding RootPath, StringFormat=根目录: {0}}" />
 
-        <StackPanel Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    Margin="0,18,0,0"
-                    Orientation="Horizontal">
+        <WrapPanel Grid.Row="1"
+                   Grid.ColumnSpan="2"
+                   Margin="0,14,0,0">
           <Button Click="SelectRootButton_Click"
                   Style="{StaticResource PrimaryButtonStyle}"
                   Content="选择根目录" />
@@ -174,13 +170,13 @@
                   Content="设置" />
           <Button Click="AboutButton_Click"
                   Content="关于" />
-        </StackPanel>
+        </WrapPanel>
       </Grid>
     </Border>
 
     <Border DockPanel.Dock="Bottom"
-            Margin="24,0,24,24"
-            Padding="14,9"
+            Margin="0,10,0,0"
+            Padding="12,8"
             Style="{StaticResource SubtleCardBorderStyle}">
       <Grid>
         <Grid.ColumnDefinitions>
@@ -193,7 +189,7 @@
                    Text="{Binding StatusText}" />
 
         <TextBlock Grid.Column="1"
-                   Margin="0,0,14,0"
+                   Margin="0,0,12,0"
                    Foreground="{StaticResource SecondaryTextBrush}"
                    Text="{Binding AppVersion, StringFormat=版本: {0}}" />
 
@@ -203,40 +199,40 @@
       </Grid>
     </Border>
 
-    <Grid Margin="24,0,24,0">
+    <Grid>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="312" />
-        <ColumnDefinition Width="18" />
-        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="286" MinWidth="220" />
+        <ColumnDefinition Width="12" />
+        <ColumnDefinition Width="*" MinWidth="300" />
       </Grid.ColumnDefinitions>
 
       <Border Grid.Column="0"
-              Padding="18"
+              Padding="16"
               Style="{StaticResource CardBorderStyle}">
         <DockPanel>
           <TextBlock DockPanel.Dock="Top"
-                     Margin="0,0,0,14"
-                     FontSize="16"
+                     Margin="0,0,0,12"
+                     FontSize="15"
                      FontWeight="SemiBold"
                      Foreground="{StaticResource PrimaryTextBrush}"
                      Text="文件树" />
 
           <Grid>
-          <TreeView x:Name="ArchiveTreeView"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    KeyDown="ArchiveTreeView_KeyDown"
-                    ItemsSource="{Binding TreeNodes}"
-                    SelectedItemChanged="ArchiveTreeView_SelectedItemChanged">
-            <TreeView.Resources>
-              <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-              <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
-              <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#111111" />
-              <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
-            </TreeView.Resources>
-            <TreeView.ContextMenu>
-              <ContextMenu>
-                <MenuItem Header="打开"
+            <TreeView x:Name="ArchiveTreeView"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      KeyDown="ArchiveTreeView_KeyDown"
+                      ItemsSource="{Binding TreeNodes}"
+                      SelectedItemChanged="ArchiveTreeView_SelectedItemChanged">
+              <TreeView.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#111111" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+              </TreeView.Resources>
+              <TreeView.ContextMenu>
+                <ContextMenu>
+                  <MenuItem Header="打开"
                             Click="OpenMenuItem_Click" />
                   <MenuItem Header="打开所在位置"
                             Click="RevealMenuItem_Click" />
@@ -248,11 +244,11 @@
               </TreeView.ContextMenu>
             </TreeView>
 
-            <Border Padding="18"
+            <Border Padding="16"
                     Background="#F8F8FA"
                     BorderBrush="{StaticResource HairlineBrush}"
                     BorderThickness="1"
-                    CornerRadius="16"
+                    CornerRadius="14"
                     IsHitTestVisible="False">
               <Border.Style>
                 <Style TargetType="Border">
@@ -266,67 +262,75 @@
               </Border.Style>
               <StackPanel VerticalAlignment="Center"
                           HorizontalAlignment="Center">
-                <Border Width="52"
-                        Height="52"
+                <Border Width="46"
+                        Height="46"
                         Background="{StaticResource AccentSoftBrush}"
-                        CornerRadius="16">
+                        CornerRadius="14">
                   <TextBlock HorizontalAlignment="Center"
                              VerticalAlignment="Center"
-                             FontSize="22"
+                             FontSize="20"
                              FontWeight="SemiBold"
                              Foreground="{StaticResource AccentBrush}"
                              Text="D" />
                 </Border>
-                <TextBlock Margin="0,14,0,0"
-                           FontSize="14"
+                <TextBlock Margin="0,12,0,0"
+                           FontSize="13"
                            FontWeight="SemiBold"
-                           Text="这里还没有内容"
                            Foreground="{StaticResource PrimaryTextBrush}"
-                           HorizontalAlignment="Center" />
+                           HorizontalAlignment="Center"
+                           Text="这里还没有内容" />
                 <TextBlock Margin="0,8,0,0"
-                           Text="{Binding TreeEmptyMessage}"
-                           TextWrapping="Wrap"
                            MaxWidth="220"
-                           VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            TextAlignment="Center"
-                           Foreground="{StaticResource SecondaryTextBrush}" />
+                           TextWrapping="Wrap"
+                           Foreground="{StaticResource SecondaryTextBrush}"
+                           Text="{Binding TreeEmptyMessage}" />
               </StackPanel>
             </Border>
           </Grid>
         </DockPanel>
       </Border>
 
-      <Grid Grid.Column="2">
-        <Grid.RowDefinitions>
-          <RowDefinition Height="176" />
-          <RowDefinition Height="18" />
-          <RowDefinition Height="196" />
-          <RowDefinition Height="18" />
-          <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+      <GridSplitter Grid.Column="1"
+                    Style="{StaticResource ColumnSplitterStyle}" />
+
+      <ScrollViewer Grid.Column="2"
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Disabled"
+                    CanContentScroll="False">
+        <Grid Margin="0,0,2,0">
+          <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="10" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="10" />
+          <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
 
         <Border x:Name="DropAreaBorder"
                 Grid.Row="0"
-                Padding="28"
+                MinHeight="148"
+                Padding="22"
                 Background="{StaticResource AccentSoftBrush}"
                 BorderBrush="#CFE2FF"
                 BorderThickness="1"
-                CornerRadius="22"
+                CornerRadius="20"
                 AllowDrop="True"
                 DragEnter="DropAreaBorder_DragEnter"
                 DragOver="DropAreaBorder_DragOver"
                 DragLeave="DropAreaBorder_DragLeave"
                 Drop="DropAreaBorder_Drop">
           <StackPanel VerticalAlignment="Center">
-            <TextBlock FontSize="18"
+            <TextBlock FontSize="17"
                        FontWeight="SemiBold"
                        Foreground="{StaticResource PrimaryTextBrush}"
                        Text="快速归档" />
             <TextBlock Margin="0,8,0,0"
-                       FontSize="13"
+                       FontSize="12"
                        Foreground="{StaticResource SecondaryTextBrush}"
-                       Text="将文件或文件夹拖到这里，自动移动到目标目录。" />
+                       Text="将文件或文件夹拖到这里，自动移动到目标目录。"
+                       TextWrapping="Wrap" />
             <Border Margin="0,14,0,0"
                     Padding="12,7"
                     HorizontalAlignment="Left"
@@ -346,17 +350,18 @@
         </Border>
 
         <Border Grid.Row="2"
-                Padding="18"
+                MinHeight="168"
+                Padding="16"
                 Style="{StaticResource CardBorderStyle}">
           <Grid>
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
-              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock FontSize="16"
+            <TextBlock FontSize="15"
                        FontWeight="SemiBold"
                        Foreground="{StaticResource PrimaryTextBrush}"
                        Text="当前选中" />
@@ -372,10 +377,8 @@
                        Foreground="{StaticResource SecondaryTextBrush}"
                        Text="{Binding SelectedPath, StringFormat=路径: {0}}" />
 
-            <StackPanel Grid.Row="3"
-                        Margin="0,16,0,0"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Top">
+            <WrapPanel Grid.Row="3"
+                       Margin="0,14,0,0">
               <Button Click="OpenMenuItem_Click"
                       Content="打开" />
               <Button Click="RevealMenuItem_Click"
@@ -384,22 +387,24 @@
                       Content="复制路径" />
               <Button Click="DeleteMenuItem_Click"
                       Content="删除" />
-            </StackPanel>
+            </WrapPanel>
           </Grid>
         </Border>
 
         <Border Grid.Row="4"
-                Padding="18"
+                MinHeight="184"
+                Padding="16"
                 Style="{StaticResource CardBorderStyle}">
-          <DockPanel>
+          <DockPanel LastChildFill="True">
             <TextBlock DockPanel.Dock="Top"
-                       Margin="0,0,0,14"
-                       FontSize="16"
+                       Margin="0,0,0,12"
+                       FontSize="15"
                        FontWeight="SemiBold"
                        Foreground="{StaticResource PrimaryTextBrush}"
                        Text="最近操作" />
 
-            <ListBox ItemsSource="{Binding LogLines}"
+            <ListBox MinHeight="136"
+                     ItemsSource="{Binding LogLines}"
                      MouseDoubleClick="LogListBox_MouseDoubleClick"
                      Background="Transparent">
               <ListBox.ItemTemplate>
@@ -488,9 +493,8 @@
             </ListBox>
           </DockPanel>
         </Border>
-      </Grid>
+        </Grid>
+      </ScrollViewer>
     </Grid>
-      </DockPanel>
-    </Grid>
-  </Border>
+  </DockPanel>
 </Window>

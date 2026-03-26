@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.IO;
 using DateVault.Domain.Models;
 using DomainTreeNode = DateVault.Domain.Models.TreeNode;
 
@@ -63,7 +64,9 @@ public sealed class FileTreeNodeViewModel : ObservableObject
         set => SetProperty(ref _isSelected, value);
     }
 
-    public string TypeLabel => IsDirectory ? "目录" : "文件";
+    public string TypeLabel => IsDirectory ? "Folder" : "File";
+
+    public string MarkerColor => ResolveMarkerColor();
 
     public ObservableCollection<FileTreeNodeViewModel> Children { get; } = new();
 
@@ -85,6 +88,40 @@ public sealed class FileTreeNodeViewModel : ObservableObject
 
     private static FileTreeNodeViewModel CreatePlaceholder(FileTreeNodeViewModel parent)
     {
-        return new FileTreeNodeViewModel("加载中", string.Empty, NodeType.File, hasChildren: false, parent, isPlaceholder: true);
+        return new FileTreeNodeViewModel("Loading", string.Empty, NodeType.File, hasChildren: false, parent, isPlaceholder: true);
+    }
+
+    private string ResolveMarkerColor()
+    {
+        if (IsPlaceholder)
+        {
+            return "#C5CAD3";
+        }
+
+        if (IsDirectory)
+        {
+            return "#8EB8FF";
+        }
+
+        var extension = Path.GetExtension(Name);
+        if (string.IsNullOrWhiteSpace(extension))
+        {
+            return "#C5CAD3";
+        }
+
+        return extension.ToLowerInvariant() switch
+        {
+            ".jpg" or ".jpeg" or ".png" or ".gif" or ".webp" or ".bmp" or ".svg" or ".ico" or ".heic" or ".raw" or ".tif" or ".tiff" => "#59C28A",
+            ".mp4" or ".mov" or ".avi" or ".mkv" or ".wmv" or ".flv" or ".webm" or ".m4v" or ".mts" => "#F08A5D",
+            ".mp3" or ".wav" or ".flac" or ".aac" or ".m4a" or ".ogg" or ".wma" or ".ape" => "#C678DD",
+            ".doc" or ".docx" or ".txt" or ".md" or ".rtf" or ".odt" or ".pages" => "#5AA9E6",
+            ".pdf" => "#E35D6A",
+            ".xls" or ".xlsx" or ".csv" or ".ods" or ".numbers" => "#4CB782",
+            ".ppt" or ".pptx" or ".odp" or ".key" => "#F3A64A",
+            ".zip" or ".rar" or ".7z" or ".tar" or ".gz" or ".bz2" or ".xz" or ".iso" or ".cab" => "#A67C52",
+            ".cs" or ".js" or ".jsx" or ".ts" or ".tsx" or ".json" or ".xml" or ".yml" or ".yaml" or ".toml" or ".ini" or ".py" or ".java" or ".cpp" or ".c" or ".h" or ".hpp" or ".go" or ".rs" or ".sql" or ".sh" or ".ps1" or ".bat" or ".cmd" => "#7B8CFF",
+            ".exe" or ".msi" or ".msix" or ".appx" or ".apk" => "#7C8594",
+            _ => "#C5CAD3"
+        };
     }
 }

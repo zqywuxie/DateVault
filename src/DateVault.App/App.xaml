@@ -21,7 +21,7 @@
 
     <Style TargetType="Window">
       <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}" />
-      <Setter Property="FontFamily" Value="Microsoft YaHei UI" />
+      <Setter Property="FontFamily" Value="Arial, Microsoft YaHei" />
       <Setter Property="WindowStyle" Value="None" />
       <Setter Property="AllowsTransparency" Value="False" />
       <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
@@ -132,6 +132,7 @@
 
     <Style TargetType="Button">
       <Setter Property="Margin" Value="0,0,10,0" />
+      <Setter Property="MinHeight" Value="38" />
       <Setter Property="Padding" Value="16,10" />
       <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
       <Setter Property="Background" Value="{StaticResource SurfaceSoftBrush}" />
@@ -139,6 +140,8 @@
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="FontSize" Value="13" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
