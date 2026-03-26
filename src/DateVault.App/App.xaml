@@ -11,6 +11,9 @@
     <SolidColorBrush x:Key="AccentBrush" Color="#0A84FF" />
     <SolidColorBrush x:Key="AccentSoftBrush" Color="#EAF3FF" />
     <SolidColorBrush x:Key="NeutralHoverBrush" Color="#F0F1F5" />
+    <SolidColorBrush x:Key="DangerBrush" Color="#D94C3D" />
+    <SolidColorBrush x:Key="DangerSoftBrush" Color="#FFF2F0" />
+    <SolidColorBrush x:Key="DangerHoverBrush" Color="#C94436" />
 
     <Style TargetType="Window">
       <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}" />
@@ -127,6 +130,44 @@
       </Setter>
     </Style>
 
+    <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="Background" Value="{StaticResource DangerBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource DangerBrush}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Chrome"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="14"
+                    Padding="{TemplateBinding Padding}"
+                    RenderTransformOrigin="0.5,0.5">
+              <Border.RenderTransform>
+                <ScaleTransform />
+              </Border.RenderTransform>
+              <ContentPresenter HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource DangerHoverBrush}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource DangerHoverBrush}" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="#B93B2F" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="#B93B2F" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Chrome" Property="Opacity" Value="0.45" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
     <Style TargetType="TextBox">
       <Setter Property="Padding" Value="14,8" />
       <Setter Property="FontSize" Value="13" />
@@ -162,14 +203,37 @@
     </Style>
 
     <Style TargetType="ContextMenu">
+      <Setter Property="OverridesDefaultStyle" Value="True" />
       <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
       <Setter Property="BorderBrush" Value="{StaticResource HairlineBrush}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="Padding" Value="8" />
-      <Setter Property="HasDropShadow" Value="True" />
+      <Setter Property="HasDropShadow" Value="False" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ContextMenu">
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="16"
+                    Padding="{TemplateBinding Padding}">
+              <Border.Effect>
+                <DropShadowEffect BlurRadius="20"
+                                  ShadowDepth="0"
+                                  Opacity="0.14"
+                                  Color="#000000" />
+              </Border.Effect>
+              <ScrollViewer CanContentScroll="True">
+                <ItemsPresenter />
+              </ScrollViewer>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
     </Style>
 
     <Style TargetType="MenuItem">
+      <Setter Property="OverridesDefaultStyle" Value="True" />
       <Setter Property="Padding" Value="12,8" />
       <Setter Property="Margin" Value="0,2,0,2" />
       <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
@@ -185,6 +249,7 @@
                     Padding="{TemplateBinding Padding}">
               <Grid>
                 <ContentPresenter ContentSource="Header"
+                                  RecognizesAccessKey="True"
                                   VerticalAlignment="Center" />
               </Grid>
             </Border>

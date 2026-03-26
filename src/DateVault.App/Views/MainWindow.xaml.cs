@@ -375,14 +375,15 @@ public partial class MainWindow : Wpf.Window
             return;
         }
 
-        var result = Wpf.MessageBox.Show(
-            this,
-            $"确定要将“{ViewModel.SelectedName}”移到回收站吗？",
-            "删除确认",
-            Wpf.MessageBoxButton.OKCancel,
-            Wpf.MessageBoxImage.Warning);
+        var dialog = new ConfirmDialog(
+            "移到回收站",
+            $"确定要将“{ViewModel.SelectedName}”移到回收站吗？此操作不会直接永久删除。",
+            "移到回收站")
+        {
+            Owner = this
+        };
 
-        if (result != Wpf.MessageBoxResult.OK)
+        if (dialog.ShowDialog() != true)
         {
             return;
         }
