@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: DateVault 设计文档
+    url: https://github.com/zqywuxie/DateVault/blob/main/windows-desktop-design.md
+    about: 提交前可先阅读桌面设计文档，确认当前设计方向

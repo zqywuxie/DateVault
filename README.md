@@ -1,5 +1,9 @@
 # DateVault
 
+[![Version](https://img.shields.io/badge/version-1.0.0-0A84FF)](https://github.com/zqywuxie/DateVault)
+[![Platform](https://img.shields.io/badge/platform-Windows-F5F5F7)](https://github.com/zqywuxie/DateVault)
+[![License](https://img.shields.io/badge/license-MIT-111111)](https://github.com/zqywuxie/DateVault/blob/main/LICENSE)
+
 DateVault 是一个面向 Windows 的轻量桌面归档工具，核心目标是把文件按日期目录整理起来，并在需要时继续按数据类型自动分流。
 
 当前桌面版本：`1.0.0`
@@ -196,6 +200,16 @@ powershell -ExecutionPolicy Bypass -File .\package-installer.ps1
 - 可打包为便携版 zip
 - 可打包为轻量单用户安装包
 - 支持卸载链路
+
+## 参与贡献
+
+- 贡献说明：`CONTRIBUTING.md`
+- Bug / 功能建议：使用 GitHub Issues 模板
+- 提交合并：使用 Pull Request 模板
+
+## 开源协议
+
+本项目使用 `MIT License`，详见 `LICENSE`。
 
 ## 后续可扩展方向
 
