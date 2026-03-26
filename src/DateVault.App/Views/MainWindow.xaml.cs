@@ -51,7 +51,15 @@ public partial class MainWindow : Wpf.Window
         }
         catch (Exception exception)
         {
-            Wpf.MessageBox.Show(this, exception.Message, "DateVault", Wpf.MessageBoxButton.OK, Wpf.MessageBoxImage.Error);
+            var messageDialog = new MessageDialog(
+                "启动失败",
+                exception.Message,
+                MessageDialogKind.Error)
+            {
+                Owner = this
+            };
+
+            messageDialog.ShowDialog();
         }
     }
 
@@ -364,7 +372,15 @@ public partial class MainWindow : Wpf.Window
         }
         catch (Exception exception)
         {
-            Wpf.MessageBox.Show(this, exception.Message, "DateVault", Wpf.MessageBoxButton.OK, Wpf.MessageBoxImage.Warning);
+            var messageDialog = new MessageDialog(
+                "操作提示",
+                exception.Message,
+                MessageDialogKind.Warning)
+            {
+                Owner = this
+            };
+
+            messageDialog.ShowDialog();
         }
     }
 

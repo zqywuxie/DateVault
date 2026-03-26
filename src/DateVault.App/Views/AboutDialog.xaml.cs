@@ -19,12 +19,15 @@ public partial class AboutDialog : Wpf.Window
 
     private void CheckUpdateButton_Click(object sender, Wpf.RoutedEventArgs e)
     {
-        Wpf.MessageBox.Show(
-            this,
-            $"当前版本：{AppIdentity.Version}{Environment.NewLine}{Environment.NewLine}尚未接入在线更新服务，请使用新的安装包覆盖安装。",
+        var dialog = new MessageDialog(
             "检查更新",
-            Wpf.MessageBoxButton.OK,
-            Wpf.MessageBoxImage.Information);
+            $"当前版本：{AppIdentity.Version}{Environment.NewLine}{Environment.NewLine}尚未接入在线更新服务，请使用新的安装包覆盖安装。",
+            MessageDialogKind.Information)
+        {
+            Owner = this
+        };
+
+        dialog.ShowDialog();
     }
 
     private void CloseButton_Click(object sender, Wpf.RoutedEventArgs e)

@@ -147,7 +147,15 @@ public partial class SettingsDialog : Wpf.Window
         }
         catch (Exception exception)
         {
-            Wpf.MessageBox.Show(this, $"导入失败：{exception.Message}", "DateVault", Wpf.MessageBoxButton.OK, Wpf.MessageBoxImage.Warning);
+            var messageDialog = new MessageDialog(
+                "导入失败",
+                $"导入失败：{exception.Message}",
+                MessageDialogKind.Warning)
+            {
+                Owner = this
+            };
+
+            messageDialog.ShowDialog();
         }
     }
 
@@ -156,7 +164,15 @@ public partial class SettingsDialog : Wpf.Window
         if (!CanSave())
         {
             UpdateValidationState();
-            Wpf.MessageBox.Show(this, "当前设置中仍有未修正的问题，无法导出。", "DateVault", Wpf.MessageBoxButton.OK, Wpf.MessageBoxImage.Warning);
+            var messageDialog = new MessageDialog(
+                "无法导出",
+                "当前设置中仍有未修正的问题，无法导出。",
+                MessageDialogKind.Warning)
+            {
+                Owner = this
+            };
+
+            messageDialog.ShowDialog();
             return;
         }
 
@@ -181,7 +197,15 @@ public partial class SettingsDialog : Wpf.Window
         }
         catch (Exception exception)
         {
-            Wpf.MessageBox.Show(this, $"导出失败：{exception.Message}", "DateVault", Wpf.MessageBoxButton.OK, Wpf.MessageBoxImage.Warning);
+            var messageDialog = new MessageDialog(
+                "导出失败",
+                $"导出失败：{exception.Message}",
+                MessageDialogKind.Warning)
+            {
+                Owner = this
+            };
+
+            messageDialog.ShowDialog();
         }
     }
 
