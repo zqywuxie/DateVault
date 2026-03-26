@@ -1,3 +1,4 @@
+using DateVault.App.Services;
 using Wpf = System.Windows;
 using WpfMedia = System.Windows.Media;
 
@@ -8,6 +9,7 @@ public partial class MessageDialog : Wpf.Window
     public MessageDialog(string titleText, string messageText, MessageDialogKind kind)
     {
         InitializeComponent();
+        DialogMotion.Attach(this);
         DataContext = new
         {
             TitleText = titleText,

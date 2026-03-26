@@ -623,7 +623,9 @@ public sealed class MainWindowViewModel : ObservableObject
 
         LogLines.Insert(0, new LogItemViewModel
         {
-            DisplayText = $"{DateTime.Now:HH:mm:ss} [{prefix}] {message}",
+            TimestampText = DateTime.Now.ToString("HH:mm:ss"),
+            MessageText = message,
+            LevelText = prefix,
             ActionPath = actionPath
         });
 

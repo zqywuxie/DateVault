@@ -1,3 +1,4 @@
+using DateVault.App.Services;
 using DateVault.Domain.Models;
 using DateVault.Domain.Services;
 using System.IO;
@@ -45,6 +46,7 @@ public partial class SettingsDialog : Wpf.Window
     public SettingsDialog(AppConfig config)
     {
         InitializeComponent();
+        DialogMotion.Attach(this);
         ApplyConfigToInputs(config);
         UpdateValidationState();
 
@@ -81,6 +83,11 @@ public partial class SettingsDialog : Wpf.Window
     }
 
     private void RootPathTextBox_TextChanged(object sender, WpfControls.TextChangedEventArgs e)
+    {
+        UpdateValidationState();
+    }
+
+    private void TargetModeRadioButton_Checked(object sender, Wpf.RoutedEventArgs e)
     {
         UpdateValidationState();
     }
@@ -352,6 +359,8 @@ public partial class SettingsDialog : Wpf.Window
             CustomRulesStatusTextBlock.Text = "未填写自定义规则时，将使用系统内置分类。";
         }
 
+        SettingsSummaryTextBlock.Text = BuildSettingsSummary(customRuleCount);
+        FooterHintTextBlock.Text = BuildFooterHint(hasRuleErrors, customRuleCount);
         SaveButton.IsEnabled = CanSave();
     }
 
@@ -363,5 +372,38 @@ public partial class SettingsDialog : Wpf.Window
         }
 
         return _fileCategoryService.ValidateCustomRules(CustomRulesTextBox.Text).Count == 0;
+    }
+
+    private string BuildSettingsSummary(int customRuleCount)
+    {
+        var targetModeText = GetSelectedTargetMode() == DefaultTargetMode.SelectedDirectory
+            ? "目标跟随当前选中目录"
+            : "默认归档到今天目录";
+        var organizationModeText = GetSelectedArchiveOrganizationMode() == ArchiveOrganizationMode.ByDataType
+            ? "按数据类型自动整理"
+            : "直接归档到目标目录";
+
+        return customRuleCount > 0
+            ? $"{targetModeText} · {organizationModeText} · 已配置 {customRuleCount} 条规则"
+            : $"{targetModeText} · {organizationModeText}";
+    }
+
+    private string BuildFooterHint(bool hasRuleErrors, int customRuleCount)
+    {
+        if (hasRuleErrors)
+        {
+            return "请先修正规则格式，再保存设置。";
+        }
+
+        if (GetSelectedArchiveOrganizationMode() != ArchiveOrganizationMode.ByDataType)
+        {
+            return customRuleCount > 0
+                ? "保存后会继续使用当前目录策略，自定义规则会保留但暂不生效。"
+                : "保存后会继续使用当前目录策略，不会对已有文件做额外调整。";
+        }
+
+        return customRuleCount > 0
+            ? $"保存后会按类型自动整理，并优先应用这 {customRuleCount} 条自定义规则。"
+            : "保存后会按系统内置分类自动整理后续归档内容。";
     }
 }

@@ -8,6 +8,7 @@ public partial class AboutDialog : Wpf.Window
     public AboutDialog()
     {
         InitializeComponent();
+        DialogMotion.Attach(this);
         DataContext = new
         {
             ProductName = AppIdentity.ProductName,

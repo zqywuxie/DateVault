@@ -224,12 +224,34 @@
                   </Style.Triggers>
                 </Style>
               </Border.Style>
-              <TextBlock Text="{Binding TreeEmptyMessage}"
-                         TextWrapping="Wrap"
-                         VerticalAlignment="Center"
-                         HorizontalAlignment="Center"
-                         TextAlignment="Center"
-                         Foreground="{StaticResource SecondaryTextBrush}" />
+              <StackPanel VerticalAlignment="Center"
+                          HorizontalAlignment="Center">
+                <Border Width="52"
+                        Height="52"
+                        Background="{StaticResource AccentSoftBrush}"
+                        CornerRadius="16">
+                  <TextBlock HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             FontSize="22"
+                             FontWeight="SemiBold"
+                             Foreground="{StaticResource AccentBrush}"
+                             Text="D" />
+                </Border>
+                <TextBlock Margin="0,14,0,0"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Text="这里还没有内容"
+                           Foreground="{StaticResource PrimaryTextBrush}"
+                           HorizontalAlignment="Center" />
+                <TextBlock Margin="0,8,0,0"
+                           Text="{Binding TreeEmptyMessage}"
+                           TextWrapping="Wrap"
+                           MaxWidth="220"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           Foreground="{StaticResource SecondaryTextBrush}" />
+              </StackPanel>
             </Border>
           </Grid>
         </DockPanel>
@@ -338,9 +360,92 @@
                        Text="最近操作" />
 
             <ListBox ItemsSource="{Binding LogLines}"
-                     DisplayMemberPath="DisplayText"
                      MouseDoubleClick="LogListBox_MouseDoubleClick"
-                     Background="Transparent" />
+                     Background="Transparent">
+              <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:LogItemViewModel}">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Width="28"
+                            Height="28"
+                            Margin="0,0,12,0"
+                            CornerRadius="10">
+                      <Border.Style>
+                        <Style TargetType="Border">
+                          <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsError}" Value="True">
+                              <Setter Property="Background" Value="{StaticResource DangerSoftBrush}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsWarning}" Value="True">
+                              <Setter Property="Background" Value="{StaticResource WarningSoftBrush}" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Border.Style>
+                      <TextBlock HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 FontSize="11"
+                                 FontWeight="SemiBold"
+                                 Text="{Binding BadgeText}">
+                        <TextBlock.Style>
+                          <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+                            <Style.Triggers>
+                              <DataTrigger Binding="{Binding IsError}" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource DangerBrush}" />
+                              </DataTrigger>
+                              <DataTrigger Binding="{Binding IsWarning}" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource WarningBrush}" />
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </TextBlock.Style>
+                      </TextBlock>
+                    </Border>
+
+                    <StackPanel Grid.Column="1"
+                                VerticalAlignment="Center">
+                      <TextBlock Text="{Binding MessageText}"
+                                 Foreground="{StaticResource PrimaryTextBrush}"
+                                 TextWrapping="Wrap" />
+                      <TextBlock Margin="0,6,0,0"
+                                 Text="{Binding TimestampText}"
+                                 FontSize="11"
+                                 Foreground="{StaticResource SecondaryTextBrush}" />
+                    </StackPanel>
+
+                    <Border Grid.Column="2"
+                            Margin="12,0,0,0"
+                            Padding="8,4"
+                            Background="#FFFFFF"
+                            BorderBrush="{StaticResource HairlineBrush}"
+                            BorderThickness="1"
+                            CornerRadius="9"
+                            VerticalAlignment="Center">
+                      <Border.Style>
+                        <Style TargetType="Border">
+                          <Setter Property="Visibility" Value="Collapsed" />
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding CanReveal}" Value="True">
+                              <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Border.Style>
+                      <TextBlock FontSize="11"
+                                 Foreground="{StaticResource SecondaryTextBrush}"
+                                 Text="{Binding ActionHintText}" />
+                    </Border>
+                  </Grid>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
           </DockPanel>
         </Border>
       </Grid>

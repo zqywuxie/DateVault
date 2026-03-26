@@ -1,3 +1,4 @@
+using DateVault.App.Services;
 using System.Windows;
 
 namespace DateVault.App.Views;
@@ -7,6 +8,7 @@ public partial class InputDialog : Window
     public InputDialog()
     {
         InitializeComponent();
+        DialogMotion.Attach(this);
         Loaded += (_, _) => FolderNameTextBox.Focus();
     }
 

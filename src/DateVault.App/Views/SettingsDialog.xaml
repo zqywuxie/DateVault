@@ -104,6 +104,17 @@
                    Foreground="{StaticResource SecondaryTextBrush}"
                    Text="把常用路径和默认归档方式整理清楚，后续操作会更顺手。"
                    TextWrapping="Wrap" />
+        <Border Margin="0,14,0,0"
+                Padding="12,8"
+                HorizontalAlignment="Left"
+                Background="{StaticResource SurfaceSoftBrush}"
+                BorderBrush="{StaticResource HairlineBrush}"
+                BorderThickness="1"
+                CornerRadius="12">
+          <TextBlock x:Name="SettingsSummaryTextBlock"
+                     FontSize="12"
+                     Foreground="{StaticResource SecondaryTextBrush}" />
+        </Border>
       </StackPanel>
 
       <ScrollViewer Grid.Row="1"
@@ -155,6 +166,7 @@
               <StackPanel Margin="0,14,0,0">
                 <RadioButton x:Name="TodayDirectoryRadioButton"
                              GroupName="TargetMode"
+                             Checked="TargetModeRadioButton_Checked"
                              Style="{StaticResource SettingsOptionRadioButtonStyle}">
                   <StackPanel>
                     <TextBlock FontSize="13"
@@ -170,6 +182,7 @@
 
                 <RadioButton x:Name="SelectedDirectoryRadioButton"
                              GroupName="TargetMode"
+                             Checked="TargetModeRadioButton_Checked"
                              Margin="0"
                              Style="{StaticResource SettingsOptionRadioButtonStyle}">
                   <StackPanel>
@@ -365,7 +378,8 @@
                     Content="导出配置" />
           </StackPanel>
 
-          <TextBlock Grid.Column="1"
+          <TextBlock x:Name="FooterHintTextBlock"
+                     Grid.Column="1"
                      Margin="14,0,0,0"
                      VerticalAlignment="Center"
                      FontSize="12"

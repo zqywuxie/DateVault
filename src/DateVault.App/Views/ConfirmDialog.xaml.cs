@@ -1,3 +1,4 @@
+using DateVault.App.Services;
 using Wpf = System.Windows;
 
 namespace DateVault.App.Views;
@@ -7,6 +8,7 @@ public partial class ConfirmDialog : Wpf.Window
     public ConfirmDialog(string titleText, string messageText, string confirmText = "确定")
     {
         InitializeComponent();
+        DialogMotion.Attach(this);
         DataContext = new
         {
             TitleText = titleText,
