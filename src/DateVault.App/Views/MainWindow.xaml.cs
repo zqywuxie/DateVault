@@ -63,6 +63,11 @@ public partial class MainWindow : Wpf.Window
         }
     }
 
+    private void Window_StateChanged(object sender, EventArgs e)
+    {
+        UpdateWindowFrame();
+    }
+
     private void Window_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
         try
@@ -140,6 +145,23 @@ public partial class MainWindow : Wpf.Window
         };
 
         dialog.ShowDialog();
+    }
+
+    private void WindowCloseButton_Click(object sender, Wpf.RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void WindowMinimizeButton_Click(object sender, Wpf.RoutedEventArgs e)
+    {
+        WindowState = Wpf.WindowState.Minimized;
+    }
+
+    private void WindowMaximizeButton_Click(object sender, Wpf.RoutedEventArgs e)
+    {
+        WindowState = WindowState == Wpf.WindowState.Maximized
+            ? Wpf.WindowState.Normal
+            : Wpf.WindowState.Maximized;
     }
 
     private void ArchiveTreeView_SelectedItemChanged(object sender, Wpf.RoutedPropertyChangedEventArgs<object> e)
@@ -316,7 +338,26 @@ public partial class MainWindow : Wpf.Window
         Left = workArea.Left + ((workArea.Width - Width) / 2);
         Top = workArea.Top + ((workArea.Height - Height) / 2);
         WindowState = Wpf.WindowState.Normal;
+        UpdateWindowFrame();
         _windowStateApplied = true;
+    }
+
+    private void UpdateWindowFrame()
+    {
+        if (WindowFrameBorder is null)
+        {
+            return;
+        }
+
+        if (WindowState == Wpf.WindowState.Maximized)
+        {
+            WindowFrameBorder.Margin = new Wpf.Thickness(0);
+            WindowFrameBorder.CornerRadius = new Wpf.CornerRadius(0);
+            return;
+        }
+
+        WindowFrameBorder.Margin = new Wpf.Thickness(10);
+        WindowFrameBorder.CornerRadius = new Wpf.CornerRadius(20);
     }
 
     private static bool IsReasonableWindowBounds(Wpf.Rect workArea, double left, double top, double width, double height)

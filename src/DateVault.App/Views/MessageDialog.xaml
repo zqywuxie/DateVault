@@ -5,21 +5,38 @@
         Width="400"
         Height="232"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize"
-        WindowStyle="SingleBorderWindow">
-  <Border Margin="18"
-          Padding="22"
-          Style="{StaticResource CardBorderStyle}">
+        ResizeMode="NoResize">
+  <Border Style="{StaticResource WindowSurfaceBorderStyle}">
     <Grid>
       <Grid.RowDefinitions>
+        <RowDefinition Height="44" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
 
-      <Border Width="52"
+      <Grid Margin="14,8,14,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Style="{StaticResource WindowCloseButtonStyle}"
+                ToolTip="关闭"
+                Click="CloseButton_Click" />
+
+        <TextBlock Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource WindowCaptionTextStyle}"
+                   Text="提示" />
+      </Grid>
+
+      <Border Grid.Row="1"
+              Width="52"
               Height="52"
+              Margin="22,12,22,0"
+              HorizontalAlignment="Left"
               Background="{Binding BadgeBackground}"
               CornerRadius="16">
         <TextBlock HorizontalAlignment="Center"
@@ -30,21 +47,21 @@
                    Text="{Binding BadgeText}" />
       </Border>
 
-      <TextBlock Grid.Row="1"
-                 Margin="0,16,0,0"
+      <TextBlock Grid.Row="2"
+                 Margin="22,16,22,0"
                  FontSize="18"
                  FontWeight="SemiBold"
                  Foreground="{StaticResource PrimaryTextBrush}"
                  Text="{Binding TitleText}" />
 
-      <TextBlock Grid.Row="2"
-                 Margin="0,10,0,0"
+      <TextBlock Grid.Row="3"
+                 Margin="22,10,22,0"
                  Foreground="{StaticResource SecondaryTextBrush}"
                  Text="{Binding MessageText}"
                  TextWrapping="Wrap" />
 
-      <StackPanel Grid.Row="3"
-                  Margin="0,20,0,0"
+      <StackPanel Grid.Row="4"
+                  Margin="22,20,22,22"
                   Orientation="Horizontal"
                   HorizontalAlignment="Right">
         <Button Width="88"

@@ -13,6 +13,7 @@
         WindowStartupLocation="Manual"
         Opacity="0"
         Closing="Window_Closing"
+        StateChanged="Window_StateChanged"
         SourceInitialized="Window_SourceInitialized"
         Loaded="Window_Loaded">
   <Window.Resources>
@@ -79,9 +80,48 @@
     </HierarchicalDataTemplate>
   </Window.Resources>
 
-  <DockPanel>
+  <Border x:Name="WindowFrameBorder"
+          Style="{StaticResource WindowSurfaceBorderStyle}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="44" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <Grid Margin="16,8,16,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center">
+          <Button Style="{StaticResource WindowCloseButtonStyle}"
+                  ToolTip="关闭"
+                  Click="WindowCloseButton_Click" />
+          <Button Style="{StaticResource WindowMinimizeButtonStyle}"
+                  ToolTip="最小化"
+                  Click="WindowMinimizeButton_Click" />
+          <Button Style="{StaticResource WindowMaximizeButtonStyle}"
+                  Margin="0"
+                  ToolTip="最大化"
+                  Click="WindowMaximizeButton_Click" />
+        </StackPanel>
+
+        <TextBlock Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource WindowCaptionTextStyle}"
+                   Text="DateVault" />
+
+        <TextBlock Grid.Column="2"
+                   Style="{StaticResource WindowCaptionTextStyle}"
+                   Text="{Binding AppVersion, StringFormat=v{0}}" />
+      </Grid>
+
+      <DockPanel Grid.Row="1">
     <Border DockPanel.Dock="Top"
-            Margin="24,24,24,14"
+            Margin="24,10,24,14"
             Padding="22,20"
             Style="{StaticResource CardBorderStyle}">
       <Grid>
@@ -450,5 +490,7 @@
         </Border>
       </Grid>
     </Grid>
-  </DockPanel>
+      </DockPanel>
+    </Grid>
+  </Border>
 </Window>

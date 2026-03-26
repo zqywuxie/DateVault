@@ -5,37 +5,54 @@
         Width="360"
         Height="210"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize"
-        WindowStyle="SingleBorderWindow">
-  <Border Margin="18"
-          Padding="20"
-          Style="{StaticResource CardBorderStyle}">
+        ResizeMode="NoResize">
+  <Border Style="{StaticResource WindowSurfaceBorderStyle}">
     <Grid>
       <Grid.RowDefinitions>
+        <RowDefinition Height="44" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
 
-      <TextBlock Text="新建文件夹"
-                 FontSize="18"
-                 FontWeight="SemiBold"
-                 Foreground="{StaticResource PrimaryTextBrush}" />
+      <Grid Margin="14,8,14,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Style="{StaticResource WindowCloseButtonStyle}"
+                ToolTip="关闭"
+                Click="CancelButton_Click" />
+
+        <TextBlock Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource WindowCaptionTextStyle}"
+                   Text="新建文件夹" />
+      </Grid>
 
       <TextBlock Grid.Row="1"
-                 Margin="0,8,0,0"
+                 Margin="20,12,20,0"
+                 FontSize="18"
+                 FontWeight="SemiBold"
+                 Foreground="{StaticResource PrimaryTextBrush}"
+                 Text="新建文件夹" />
+
+      <TextBlock Grid.Row="2"
+                 Margin="20,8,20,0"
+                 Foreground="{StaticResource SecondaryTextBrush}"
                  Text="在当前选中目录或今日目录下创建新的子文件夹。"
-                 Foreground="{StaticResource SecondaryTextBrush}" />
+                 TextWrapping="Wrap" />
 
       <TextBox x:Name="FolderNameTextBox"
-               Grid.Row="2"
-               Margin="0,16,0,0"
+               Grid.Row="3"
+               Margin="20,16,20,0"
                Height="42"
                VerticalContentAlignment="Center" />
 
-      <StackPanel Grid.Row="3"
-                  Margin="0,18,0,0"
+      <StackPanel Grid.Row="4"
+                  Margin="20,18,20,20"
                   Orientation="Horizontal"
                   HorizontalAlignment="Right">
         <Button Width="84"

@@ -26,6 +26,11 @@ public partial class MessageDialog : Wpf.Window
         Close();
     }
 
+    private void CloseButton_Click(object sender, Wpf.RoutedEventArgs e)
+    {
+        Close();
+    }
+
     private WpfMedia.Brush GetBadgeBackground(MessageDialogKind kind)
     {
         return (WpfMedia.Brush)FindResource(kind switch

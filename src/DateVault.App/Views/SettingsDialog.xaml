@@ -7,8 +7,7 @@
         MinWidth="560"
         MinHeight="760"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize"
-        WindowStyle="SingleBorderWindow">
+        ResizeMode="NoResize">
   <Window.Resources>
     <SolidColorBrush x:Key="ValidationErrorBrush" Color="#C9342F" />
     <SolidColorBrush x:Key="ValidationSoftBrush" Color="#FFF4F2" />
@@ -83,15 +82,39 @@
     </Style>
   </Window.Resources>
 
-  <Border Margin="18"
-          Padding="26"
-          Style="{StaticResource CardBorderStyle}">
+  <Border Style="{StaticResource WindowSurfaceBorderStyle}">
     <Grid>
       <Grid.RowDefinitions>
+        <RowDefinition Height="44" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <Grid Margin="14,8,14,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Style="{StaticResource WindowCloseButtonStyle}"
+                ToolTip="关闭"
+                Click="CancelButton_Click" />
+
+        <TextBlock Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource WindowCaptionTextStyle}"
+                   Text="设置" />
+      </Grid>
+
+      <Border Grid.Row="1"
+              Margin="18,8,18,18"
+              Padding="26"
+              Style="{StaticResource CardBorderStyle}">
+        <Grid>
+          <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
         <RowDefinition Height="Auto" />
-      </Grid.RowDefinitions>
+          </Grid.RowDefinitions>
 
       <StackPanel>
         <TextBlock
@@ -401,6 +424,8 @@
                 Click="SaveButton_Click"
                 Content="保存" />
           </StackPanel>
+        </Grid>
+      </Border>
         </Grid>
       </Border>
     </Grid>
