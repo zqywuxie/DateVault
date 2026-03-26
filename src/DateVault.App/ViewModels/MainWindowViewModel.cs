@@ -308,6 +308,23 @@ public sealed class MainWindowViewModel : ObservableObject
         AddLog(LogLevel.Info, $"已复制路径: {_selectedNode.FullPath}", _selectedNode.FullPath);
     }
 
+    public void DeleteSelected()
+    {
+        if (_selectedNode is null)
+        {
+            return;
+        }
+
+        var targetNode = _selectedNode;
+        var targetPath = targetNode.FullPath;
+        var targetName = targetNode.Name;
+        var parentPath = _fileSystemGateway.GetParentDirectory(targetPath);
+
+        _fileSystemGateway.DeleteEntry(targetPath);
+        RefreshTree(parentPath);
+        AddLog(LogLevel.Warning, $"已移到回收站: {targetName}", parentPath ?? RootPath);
+    }
+
     public void OpenTodayDirectory()
     {
         EnsureRootPath();

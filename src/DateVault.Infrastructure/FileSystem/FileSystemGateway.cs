@@ -1,6 +1,8 @@
 using System.IO;
 using DateVault.Domain.Abstractions;
 using DateVault.Domain.Models;
+using Microsoft.VisualBasic.FileIO;
+using VbFileSystem = Microsoft.VisualBasic.FileIO.FileSystem;
 
 namespace DateVault.Infrastructure.FileSystem;
 
@@ -82,5 +84,29 @@ public sealed class FileSystemGateway : IFileSystemGateway
         }
 
         throw new FileNotFoundException("找不到待移动的文件或目录。", sourcePath);
+    }
+
+    public void DeleteEntry(string path)
+    {
+        if (File.Exists(path))
+        {
+            VbFileSystem.DeleteFile(
+                path,
+                UIOption.OnlyErrorDialogs,
+                RecycleOption.SendToRecycleBin);
+            return;
+        }
+
+        if (Directory.Exists(path))
+        {
+            VbFileSystem.DeleteDirectory(
+                path,
+                UIOption.OnlyErrorDialogs,
+                RecycleOption.SendToRecycleBin,
+                UICancelOption.ThrowException);
+            return;
+        }
+
+        throw new FileNotFoundException("找不到待删除的文件或目录。", path);
     }
 }

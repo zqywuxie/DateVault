@@ -173,6 +173,13 @@ public partial class MainWindow : Wpf.Window
         {
             ExecuteSafely(ViewModel.OpenSelected);
             e.Handled = true;
+            return;
+        }
+
+        if (e.Key == WpfInput.Key.Delete)
+        {
+            DeleteSelectedWithConfirmation();
+            e.Handled = true;
         }
     }
 
@@ -233,10 +240,15 @@ public partial class MainWindow : Wpf.Window
         ExecuteSafely(ViewModel.CopySelectedPath);
     }
 
+    private void DeleteMenuItem_Click(object sender, Wpf.RoutedEventArgs e)
+    {
+        DeleteSelectedWithConfirmation();
+    }
+
     private void UpdateDropState(Wpf.DragEventArgs e)
     {
         var hasFiles = e.Data.GetDataPresent(Wpf.DataFormats.FileDrop);
-        e.Effects = hasFiles ? Wpf.DragDropEffects.Copy : Wpf.DragDropEffects.None;
+        e.Effects = hasFiles ? Wpf.DragDropEffects.Move : Wpf.DragDropEffects.None;
         AnimateDropBackground(hasFiles ? _dropHighlightColor : _dropBaseColor);
         e.Handled = true;
     }
@@ -354,5 +366,27 @@ public partial class MainWindow : Wpf.Window
         {
             Wpf.MessageBox.Show(this, exception.Message, "DateVault", Wpf.MessageBoxButton.OK, Wpf.MessageBoxImage.Warning);
         }
+    }
+
+    private void DeleteSelectedWithConfirmation()
+    {
+        if (string.IsNullOrWhiteSpace(ViewModel.SelectedPath))
+        {
+            return;
+        }
+
+        var result = Wpf.MessageBox.Show(
+            this,
+            $"确定要将“{ViewModel.SelectedName}”移到回收站吗？",
+            "删除确认",
+            Wpf.MessageBoxButton.OKCancel,
+            Wpf.MessageBoxImage.Warning);
+
+        if (result != Wpf.MessageBoxResult.OK)
+        {
+            return;
+        }
+
+        ExecuteSafely(ViewModel.DeleteSelected);
     }
 }

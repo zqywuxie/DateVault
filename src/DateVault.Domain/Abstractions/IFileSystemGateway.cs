@@ -17,4 +17,6 @@ public interface IFileSystemGateway
     string? GetParentDirectory(string path);
 
     void MoveEntry(string sourcePath, string targetPath);
+
+    void DeleteEntry(string path);
 }

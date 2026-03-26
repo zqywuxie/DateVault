@@ -202,6 +202,8 @@
                             Click="RevealMenuItem_Click" />
                   <MenuItem Header="复制路径"
                             Click="CopyPathMenuItem_Click" />
+                  <MenuItem Header="删除"
+                            Click="DeleteMenuItem_Click" />
                 </ContextMenu>
               </TreeView.ContextMenu>
             </TreeView>
@@ -262,7 +264,7 @@
             <TextBlock Margin="0,8,0,0"
                        FontSize="13"
                        Foreground="{StaticResource SecondaryTextBrush}"
-                       Text="将文件拖到这里，自动移动到目标目录。" />
+                       Text="将文件或文件夹拖到这里，自动移动到目标目录。" />
             <Border Margin="0,14,0,0"
                     Padding="12,7"
                     HorizontalAlignment="Left"
@@ -318,6 +320,8 @@
                       Content="打开位置" />
               <Button Click="CopyPathMenuItem_Click"
                       Content="复制路径" />
+              <Button Click="DeleteMenuItem_Click"
+                      Content="删除" />
             </StackPanel>
           </Grid>
         </Border>
