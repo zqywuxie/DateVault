@@ -18,7 +18,7 @@ if (-not $signtool) {
 
 if ([string]::IsNullOrWhiteSpace($CertificateThumbprint)) {
     Write-Host "Template mode only. Example usage:"
-    Write-Host ".\\sign-package-template.ps1 -FilePath .\\artifacts\\publish\\win-x64\\DateVault.App.exe -CertificateThumbprint YOUR_CERT_THUMBPRINT"
+    Write-Host ".\\sign-package-template.ps1 -FilePath .\\artifacts\\publish\\win-x64\\DateVault.exe -CertificateThumbprint YOUR_CERT_THUMBPRINT"
     exit 0
 }
 

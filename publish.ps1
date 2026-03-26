@@ -17,10 +17,15 @@ if (-not (Test-Path $localDotnet)) {
     throw "Local .NET SDK not found at $localDotnet"
 }
 
+if (Test-Path $publishDir) {
+    Remove-Item -Recurse -Force $publishDir
+}
+
 & $localDotnet publish $projectFile `
     -c $Configuration `
     -r $Runtime `
     --self-contained true `
     -p:PublishSingleFile=true `
+    -p:EnableCompressionInSingleFile=true `
     -p:IncludeNativeLibrariesForSelfExtract=true `
     -o $publishDir

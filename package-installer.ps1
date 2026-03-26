@@ -64,7 +64,7 @@ param(
 `$desktopShortcutPath = Join-Path ([Environment]::GetFolderPath("Desktop")) "DateVault.lnk"
 `$startMenuShortcutPath = Join-Path `$startMenuDir "DateVault.lnk"
 `$uninstallShortcutPath = Join-Path `$startMenuDir "卸载 DateVault.lnk"
-`$exePath = Join-Path `$appDir "DateVault.App.exe"
+`$exePath = Join-Path `$appDir "DateVault.exe"
 `$iconPath = Join-Path `$installRoot "datevault.ico"
 `$uninstallScriptPath = Join-Path `$installRoot "uninstall.ps1"
 `$registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\DateVault"

@@ -140,6 +140,7 @@ powershell -ExecutionPolicy Bypass -File .\publish.ps1
 发布目录：
 
 - `artifacts\publish\win-x64`
+- 主程序文件：`DateVault.exe`
 
 ### 生成便携包
 
@@ -167,6 +168,7 @@ powershell -ExecutionPolicy Bypass -File .\package-installer.ps1
 - 默认安装到 `%LOCALAPPDATA%\Programs\DateVault`
 - 可创建桌面快捷方式和开始菜单快捷方式
 - 自动写入 Windows 当前用户卸载信息
+- 安装后的主程序文件名为 `DateVault.exe`
 
 ## 图标与签名
 
